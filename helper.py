@@ -4,9 +4,12 @@ import pandas as pd
 from collections import Counter
 import regex
 
-def fetch_stats(selected_user,df):
+
+def fetch_stats (selected_user,df):
     if selected_user != 'Overall':
         df = df[df['user'] == selected_user]
+
+    df['message'] = df['message'].astype(str).fillna("")
 
     # fetch the total number of words
     num_messages = df.shape[0]
@@ -20,7 +23,7 @@ def fetch_stats(selected_user,df):
     num_media_messages = df[df['message'].str.contains('<Media omitted>')].shape[0]
 
     # fetch number of links  shared
-    links=[]
+    links = []
     for message in df['message']:
         links.extend(extract.find_urls(message))
 
